@@ -1,0 +1,80 @@
+Cross-validation MAE on train data
+         LR        RF  Adaboost   Bagging       ETR   XGBoost   VR
+0  0.536799  0.108087  0.511622  0.112084  0.107010  0.347407  NaN
+1  0.521967  0.101566  0.498867  0.103314  0.100911  0.336283  NaN
+2  0.527174  0.100457  0.488270  0.104868  0.101647  0.333318  NaN
+3  0.529050  0.099974  0.498887  0.101088  0.098624  0.331010  NaN
+4  0.531578  0.097391  0.486231  0.101278  0.096549  0.339054  NaN
+Cross-validation MSE on train data
+         LR        RF  Adaboost   Bagging       ETR   XGBoost   VR
+0  0.602624  0.101087  0.582980  0.114309  0.089781  0.374337  NaN
+1  0.573251  0.095321  0.566126  0.106620  0.082722  0.358678  NaN
+2  0.585788  0.088777  0.548056  0.101504  0.084945  0.346026  NaN
+3  0.586497  0.089481  0.574465  0.100129  0.083299  0.343378  NaN
+4  0.585103  0.085720  0.558575  0.098999  0.076202  0.366076  NaN
+Cross-validation R2 score on train data
+         LR        RF  Adaboost   Bagging       ETR   XGBoost   VR
+0  0.583640  0.930158  0.597213  0.921023  0.937969  0.741366  NaN
+1  0.603668  0.934097  0.608593  0.926285  0.942808  0.752018  NaN
+2  0.602420  0.939747  0.628029  0.931109  0.942347  0.765149  NaN
+3  0.607022  0.940044  0.615084  0.932909  0.944186  0.769922  NaN
+4  0.601801  0.941662  0.619855  0.932625  0.948140  0.750862  NaN
+Results on Test Set
+           LR        RF  Adaboost   Bagging       ETR   XGBoost        VR
+MAE  0.485947  0.370546  0.478814  0.363247  0.327111  0.407700  0.351507
+MSE  0.469144  0.439456  0.505834  0.460753  0.354283  0.507076  0.396434
+R2   0.708224  0.726688  0.685405  0.713443  0.779660  0.684633  0.753445
+Average MAE of cross validation
+LR          0.529314
+RF          0.101495
+Adaboost    0.496776
+Bagging     0.104526
+ETR         0.100948
+XGBoost     0.337414
+VR               NaN
+dtype: float64
+Standart Deviation of Each Algoritm on Cross-Validation
+LR          0.005472
+RF          0.003990
+Adaboost    0.010159
+Bagging     0.004502
+ETR         0.003937
+XGBoost     0.006356
+VR               NaN
+dtype: float64
+Average MSE of cross validation
+LR          0.586653
+RF          0.092077
+Adaboost    0.566041
+Bagging     0.104312
+ETR         0.083390
+XGBoost     0.357699
+VR               NaN
+dtype: float64
+Standart Deviation of Each Algoritm on Cross-Validation
+LR          0.010463
+RF          0.006118
+Adaboost    0.013575
+Bagging     0.006302
+ETR         0.004883
+XGBoost     0.013127
+VR               NaN
+dtype: float64
+Average R2 Score of cross validation
+LR          0.599710
+RF          0.937141
+Adaboost    0.613755
+Bagging     0.928790
+ETR         0.943090
+XGBoost     0.755864
+VR               NaN
+dtype: float64
+Standart Deviation of Each Algoritm on Cross-Validation
+LR          0.009207
+RF          0.004839
+Adaboost    0.011651
+Bagging     0.005090
+ETR         0.003659
+XGBoost     0.011552
+VR               NaN
+dtype: float64
