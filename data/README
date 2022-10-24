@@ -1,0 +1,25 @@
+This folder contains the following files:
+
+Annotation files for the MAST RHYTHM data set available at https://zenodo.org/record/2620357#.Y1bLpnVBwW1 :
+'annotations_0.zip': Grades by Expert 0 (most experienced, conservatory. prof. )
+'annotations_1.zip': Grades by Expert 1 (graduate conservatory student)
+'annotations_2.zip': Grades by Expert 2 (graduate conservatory student)
+
+'manuallyCorrectedOnsets.zip': Manully corrected onsets files. Preparation procedure: 
+ODFs were plotted together with onset locations for visual inspection. Following visual 
+inspection, a group of files for which a mis-placement is likely, manual correction was 
+performed(by undergrad. engineering students) using Audacity modifying the onset times. 
+This package contains the manually modified onset data.
+
+'train_couples.txt' and 'test_couples.txt': fixed set of train and test couples. To 
+create a new random set you could use the convert_annotations.py script in the 
+data_processing folder
+
+rhythm_data4ML_full_agree_correctedOnsets.zip: Tabular ML data created using files for 
+which all annotators assigned the same grade.
+
+Audio files are not included in the data folder due to size constraints. You could use 
+downloadAudioFromZenodo.py that downloads all audio data from Zenodo and converts .m4a
+files to .wav files. This would place all resulting files in data/wav folder
+
+
