@@ -29,10 +29,10 @@ The Python libraries used are listed in the requrements.txt file
 
 # Authorship
 
-The code ashared in this repo are authored by:
+The code shared in this repo are authored by:
 
-Baris Bozkurt: Data preprocessing and feature extraction.
-Osman Büyük: Experiments with Siamese networks
+Baris Bozkurt: Data preprocessing and feature extraction, 
+Osman Büyük: Experiments with Siamese networks, 
 Basak Esin Köktürk Güzel: Machine learning experiments
 
 
