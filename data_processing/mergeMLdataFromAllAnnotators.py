@@ -92,7 +92,7 @@ def consistency_check(df_filt, root_dba_folder, data_pack_files, mode='full_agre
         
 #----------------
 def main():
-    root_dba_folder = '../../data/rhythm/'        
+    root_dba_folder = '../data/'        
     data_pack_files = ['rhythm_data4ML_0_withCorrectedOnsets.zip', 
                        'rhythm_data4ML_1_withCorrectedOnsets.zip',
                        'rhythm_data4ML_2_withCorrectedOnsets.zip']

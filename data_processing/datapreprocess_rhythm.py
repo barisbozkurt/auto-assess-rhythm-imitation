@@ -370,9 +370,9 @@ def create_recording_objects(target_rec_objects_file, audio_files_folder, annota
 
 def main():
     # Data file to be created 
-    target_rec_objects_file = '../data/rhythm/rhythm-data.pickle'
-    audio_files_folder = '../data/wav/rhyWav/'
-    annotations_file = '../data/rhythm/all_annots_2015_2016_rhy_cihan.txt'
+    target_rec_objects_file = '../data/rhythm-data.pickle'
+    audio_files_folder = '../data/wav/'
+    annotations_file = '../data/all_annots_2015_2016_rhy.txt'
     
     succeed = create_recording_objects(target_rec_objects_file, audio_files_folder, annotations_file);
     

@@ -16,7 +16,7 @@ from datapreprocess_rhythm import Recording
 
 
 # Reading and accessing features
-data_file_name = '../data/rhythm/rhythm-data.pickle'
+data_file_name = '../data/rhythm-data.pickle'
 #reading pickle
 with open(data_file_name, 'rb') as handle:
     rhy_data_read = pickle.load(handle)

@@ -319,9 +319,9 @@ def prepare_ML_data(data_file_name, train_couples_file, test_couples_file, exclu
 
 def main():    
     # Reading and accessing features
-    data_file_name = '../data/rhythm/rhythm-data.pickle'
-    train_couples_file = '../data/rhythm/train_couples_balanced.txt'
-    test_couples_file = '../data/rhythm/test_couples_balanced.txt'
+    data_file_name = '../data/rhythm-data.pickle'
+    train_couples_file = '../data/train_couples_balanced.txt'
+    test_couples_file = '../data/test_couples_balanced.txt'
     onset_method = 'hfc'
     exclude_ref_list_file = 'excluded_references.txt' 
     

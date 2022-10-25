@@ -269,9 +269,9 @@ def create_test_train_split_file_lists(list_files_folder, test_split_ratio=0.3):
     
 
 def main():
-    # Before running, first unzip /data/rhythm/2015-2016Etiketlemeler.zip 
+    # Before running, first unzip /data/annotations_0.zip 
     # to a folder which should produce the folder below
-    dba_folder = '../data/rhythm/2015-2016Etiketlemeler_Asli/'
+    dba_folder = '../data/2015-2016 Etiketlemeler/'
     # Produce file lists
     produce_file_lists(dba_folder)
     
