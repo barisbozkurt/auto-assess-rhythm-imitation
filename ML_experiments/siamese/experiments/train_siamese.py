@@ -5,8 +5,8 @@ import os
 from tensorflow.keras.optimizers import SGD
 from tensorflow.keras.callbacks import CSVLogger, ModelCheckpoint
 from callback.siameseCallBack import Siamese_Callback
-from voicemap.models import Models
-from voicemap.models import Siamese
+from model.models import Models
+from model.models import Siamese
 from dataset.siamese import Dataset_Siamese
 from configuration import get_config
 import tensorflow as tf

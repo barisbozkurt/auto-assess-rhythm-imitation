@@ -5,7 +5,7 @@ import os
 from tensorflow.keras.optimizers import Adam, SGD
 from tensorflow.keras.callbacks import CSVLogger, ModelCheckpoint, ReduceLROnPlateau
 from callback.onsetCallBack import Onset_Callback
-from voicemap.models import Models
+from model.models import Models
 from dataset.onset import Dataset_Onset
 from configuration import get_config
 import tensorflow as tf
