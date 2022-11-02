@@ -16,7 +16,7 @@ config = get_config()
 # Mute excessively verbose Tensorflow output
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
-param_str = 'rhtyhm_siamese'
+param_str = 'rhythm_siamese'
 
 ###################
 # Create datasets #
