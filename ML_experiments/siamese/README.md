@@ -1,5 +1,5 @@
 
-# Exemplary automatic classification test
+# Siamese Network
 
 This folder contains code for automatic assessment for rhythmic pattern imitations using Siamese network.
 
