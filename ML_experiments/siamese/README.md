@@ -1,9 +1,9 @@
 
 # Siamese Network
 
-This folder contains code for automatic assessment for rhythmic pattern imitations using Siamese network.
+This folder contains codes for automatic assessment for rhythmic pattern imitations using Siamese network.
 
-The folder contains the following subfolders:
+The folder contains the following sub-folders:
 * 'experiments' folder contains codes to train/test Siamese network for performance assessment and DNN for onset detection. 
 * 'models' folder contains DNN topologies we tried for the performance assessment and the onset detection.
 * 'dataset' folder contains codes to prepare the files in the database to train the models. 
