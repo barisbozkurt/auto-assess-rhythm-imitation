@@ -2,6 +2,9 @@ import argparse
 
 parser = argparse.ArgumentParser()    # make parser
 
+def new_method():
+    return 0
+
 # get arguments
 def get_config():
     """
@@ -22,8 +25,8 @@ def str2bool(v):
 
 # Database and feature extraction parameters
 data_arg = parser.add_argument_group('Dataset')
-data_arg.add_argument('--audio_path_trn_per', type=str, default='../../data/feat/train', help="audio directory path for train")
-data_arg.add_argument('--audio_path_test_per', type=str, default='../../data/feat/test', help="audio directory path for test")
+data_arg.add_argument('--audio_path_trn_per', type=str, default='../../data/feat/train', help="audio directory path for student train performances")
+data_arg.add_argument('--audio_path_test_per', type=str, default='../../data/feat/test', help="audio directory path for student test performances")
 data_arg.add_argument('--audio_path_ref', type=str, default='../../data/feat/ref', help="audio directory path for references")
 data_arg.add_argument('--model_save_path', type=str, default='../../data/models', help="model directory path to save models")
 data_arg.add_argument('--w_size', type=float, default=0.025, help="window length (in sec)")
