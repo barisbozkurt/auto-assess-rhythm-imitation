@@ -2,9 +2,6 @@ import argparse
 
 parser = argparse.ArgumentParser()    # make parser
 
-def new_method():
-    return 0
-
 # get arguments
 def get_config():
     """
