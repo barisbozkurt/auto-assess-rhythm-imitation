@@ -1,5 +1,4 @@
 import argparse
-import pandas
 
 parser = argparse.ArgumentParser()    # make parser
 
