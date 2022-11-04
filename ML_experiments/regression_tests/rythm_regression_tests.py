@@ -288,7 +288,7 @@ def main():
   
     data_annotations_files = ['rhythm_data4ML_0.zip','rhythm_data4ML_1.zip','rhythm_data4ML_2.zip','rhythm_data4ML_0_withCorrectedOnsets.zip','rhythm_data4ML_1_withCorrectedOnsets.zip','rhythm_data4ML_2_withCorrectedOnsets.zip']
     author_name = ['0','1','2']
-    target_folder_path = os.path.join(Path(os.getcwd()).parent,'data/rhythm/')      
+    target_folder_path = os.path.join(Path(os.getcwd()).parent.parent,'data/')      
     num_cores = multiprocessing.cpu_count()
     Parallel(n_jobs=num_cores)(delayed(baseline_regression)(ind,i,target_folder_path,author_name) for ind, i in enumerate(data_annotations_files))
 
