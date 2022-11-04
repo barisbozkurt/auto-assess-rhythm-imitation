@@ -2,18 +2,20 @@ import numpy as np
 from tensorflow.keras.callbacks import Callback
 from sklearn.metrics import mean_absolute_error,precision_score, recall_score, f1_score, confusion_matrix
 from utils import compute_metrics
+import os
 
 from configuration import get_config
 config = get_config()
 
 class Onset_Callback(Callback):
-    def __init__(self, dataset, frmsize):
+    def __init__(self, dataset):
         super(Onset_Callback, self).__init__()
         self.dataset = dataset
-        self.frmsize = frmsize
 
     def on_epoch_end(self, epoch, logs=None):
         logs = logs or {}
+
+
         preds, labels, preds_path = self.task_evaluation()
 
         onset_ref_preds = []
@@ -84,7 +86,7 @@ class Onset_Callback(Callback):
 
     def task_evaluation(self):
         # Get trials
-        [input_1, label, input_1_path] = self.dataset.build_verification_trials(frmsize=self.frmsize)
+        [input_1, label, input_1_path] = self.dataset.build_verification_trials()
         batch_size = 64
         begin_ind = 0
         end_ind = begin_ind + batch_size

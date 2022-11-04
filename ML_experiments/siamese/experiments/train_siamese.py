@@ -12,6 +12,10 @@ from configuration import get_config
 import tensorflow as tf
 
 config = get_config()
+if not os.path.exists(config.model_save_path):
+    os.makedirs(config.model_save_path)
+if not os.path.exists(config.log_save_path):
+    os.makedirs(config.log_save_path)
 
 # Mute excessively verbose Tensorflow output
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -75,9 +79,9 @@ siamese.fit(
         # First generate custom n-shot classification metric
         Siamese_Callback(valid),
         # Then log and checkpoint
-        CSVLogger('../../data/logs/{}.csv'.format(param_str)),
+        CSVLogger('{}}/{}.csv'.format(config.log_save_path, param_str)),
         ModelCheckpoint(
-            '../../data/models/{}.hdf5'.format(param_str),
+            '{}/{}.hdf5'.format(config.model_save_path,param_str),
             monitor='reg_loss',
             mode='min',
             save_best_only=True,

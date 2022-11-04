@@ -5,13 +5,13 @@ class Dataset_Onset(Dataset):
     def __init__(self, audio_path_per, audio_path_ref, model_name, audio_path_test = None):
         super().__init__(audio_path_per, audio_path_ref, model_name, audio_path_test)
 
-    def yield_batches(self, batchsize=None, frmsize=None):
+    def yield_batches(self, batchsize=None):
         while True:
-            (input, labels) = self.build_batch(batchsize, frmsize)
+            (input, labels) = self.build_batch(batchsize)
             yield input, labels
 
 
-    def build_verification_trials(self, frmsize):
+    def build_verification_trials(self):
         samples = self.df
 
         labels = []
@@ -27,13 +27,13 @@ class Dataset_Onset(Dataset):
 
         return input_1, outputs, input_1_label
 
-    def build_batch(self, batchsize, frmsize):
+    def build_batch(self, batchsize):
         samples = self.df.sample(int(batchsize))
 
         labels = []
         for kk in range(len(samples)):
             labels.append(samples['label'].values[kk])
-        outputs = np.array(labels)[:,:,np.newaxis]
+        outputs = np.array(labels)[:, :, np.newaxis]
         inputs = list(zip(samples['id'].values))
 
         in1 = [self[i] for i in list(zip(*inputs))[0]]

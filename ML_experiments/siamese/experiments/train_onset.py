@@ -12,6 +12,11 @@ import tensorflow as tf
 
 config = get_config()
 
+if not os.path.exists(config.model_save_path):
+    os.makedirs(config.model_save_path)
+if not os.path.exists(config.log_save_path):
+    os.makedirs(config.log_save_path)
+
 # Mute excessively verbose Tensorflow output
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
@@ -24,14 +29,14 @@ train = Dataset_Onset(config.audio_path_trn_per, config.audio_path_ref, config.m
 valid = Dataset_Onset(config.audio_path_trn_per, config.audio_path_ref, config.model_name, config.audio_path_test_per)
 
 if config.model_name == 'LSTM_seq2seq':
-    input_shape = [config.num_frm_split, config.num_feat]  # (batch_size, timespan, input_dim)
+    input_shape = [config.max_frm, config.num_feat]  # (batch_size, timespan, input_dim)
 if config.model_name == 'CNN1D_RNN_seq2seq':
-    input_shape = [config.num_frm_split, config.num_feat]
+    input_shape = [config.max_frm, config.num_feat]
 if config.model_name == 'CNN2D_RNN_seq2seq':
-    input_shape = [config.num_frm_split, config.num_feat, 1]
+    input_shape = [config.max_frm, config.num_feat, 1]
 
-train_generator = (batch for batch in train.yield_batches(config.batch_size, config.num_frm_split))
-valid_generator = (batch for batch in valid.yield_batches(config.batch_size, config.num_frm_split))
+train_generator = (batch for batch in train.yield_batches(config.batch_size))
+valid_generator = (batch for batch in valid.yield_batches(config.batch_size))
 
 ################
 # Define model #
@@ -64,11 +69,11 @@ model.fit(
     #use_multiprocessing=True,
     callbacks=[
         # First generate custom n-shot classification metric
-        Onset_Callback(valid, config.num_frm_split),
+        Onset_Callback(valid),
         # Then log and checkpoint
-        CSVLogger('../../data/logs/{}.csv'.format(param_str)),
+        CSVLogger('{}/{}.csv'.format(config.log_save_path, param_str)),
         ModelCheckpoint(
-            '../../data/models/{}.hdf5'.format(param_str),
+            '{}/{}.hdf5'.format(config.model_save_path, param_str),
             monitor='mse',
             mode='min',
             save_best_only=True,
