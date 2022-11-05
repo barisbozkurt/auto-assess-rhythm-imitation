@@ -17,10 +17,10 @@ The name of this database directory should be specified in the configuration.py 
 * audio_path_ref_per: : Database directory for reference files.
 
 If onset features are fed into Siamese network, then the features can be obtained using the codes under ../data_processing folder.
-Or, onset labels could be fed into the network. Moreover, Siamese network can use the onset point obtained using the DNN-based onset detection 
-which can be trained with experiments/train_onset.py. 
+Or, onset labels could be fed into the network. Moreover, Siamese network can use the onset points obtained with experiments/train_onset.py. This code implements DNN-based
+onset detection in the paper. 
 
-We train DNN-based onset detection with spectrogram features. The spectrogram can be obtained using compute_spectrogram method in utils.py.
+We train DNN-based onset detection with spectrogram features. Spectrogram can be obtained using compute_spectrogram method in utils.py.
 The input to the DNN-based onset detection is onset labels. However, we pre-process the onset labels using the get_binary_labels method in utils.py.
 
 
