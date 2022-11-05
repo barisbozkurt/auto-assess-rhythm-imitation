@@ -21,7 +21,7 @@ Or, onset labels could be fed into the network. Moreover, Siamese network can us
 onset detection in the paper. 
 
 We train DNN-based onset detection with spectrogram features. Spectrogram can be obtained using compute_spectrogram method in utils.py.
-The input to the DNN-based onset detection is onset labels. However, we pre-process the onset labels using the get_binary_labels method in utils.py.
+The output of the DNN-based onset detection network is onset labels. We pre-process the onset labels using the get_binary_labels method in utils.py.
 
 
 
