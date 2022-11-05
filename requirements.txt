@@ -10,6 +10,6 @@ resampy==0.2.2
 scikit-learn==1.1.2
 scipy==1.9.2
 SoundFile==0.10.3.post1
-tensorflow==2.10.0
+tensorflow-gpu==2.9.1
 sklearn
 xgboost==1.6.2
