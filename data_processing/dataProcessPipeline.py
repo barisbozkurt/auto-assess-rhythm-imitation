@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Data process pipeline:
-    Given audio data in (../data/wav/) and annotations (in ../data/) runs sequence of processes
+    Runs the whole sequence of processes from scratch 
     to create tabular data for machine learning experiments
 
 Some processes differ for different annotator's data:
