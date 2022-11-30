@@ -256,7 +256,7 @@ def read_label(label_file_path):
 
     onsets = []
     for line in fin:
-        onset,_,_ = line.split('\t')
+        onset, _, _ = line.split('\t')
         onsets.append(float(onset))
     return np.array(onsets)
 
