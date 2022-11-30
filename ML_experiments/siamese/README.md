@@ -20,7 +20,7 @@ The name of this feature directory should be specified in the configuration.py a
 If onset features are fed into Siamese network, then the features can be obtained using the codes under ../../data_processing.
 We also share rhythm_data.pickle file under data ../../data in which onset labels and onset points obtained with the classical onset 
 detection method are available. 
-You can basically run get_features.py in order to obtain the features that can fed into the Siamese and DNN-based onset detection networks.
+You can basically run get_features_rhythm.py in order to obtain the features that can fed into the Siamese and DNN-based onset detection networks.
 get_features.py reads the ../../data/rhythm_data.pickle and prepares the feature files for the DNN-training.
 
 Moreover, Siamese network can use the onset points obtained with experiments/train_onset.py. experiments/train_onset.py implements DNN-based
