@@ -79,9 +79,9 @@ siamese.fit(
         # First generate custom n-shot classification metric
         Siamese_Callback(valid),
         # Then log and checkpoint
-        CSVLogger('{}}/{}.csv'.format(config.log_save_path, param_str)),
+        CSVLogger('{}/{}.csv'.format(config.log_save_path, param_str)),
         ModelCheckpoint(
-            '{}/{}.hdf5'.format(config.model_save_path,param_str),
+            '{}/{}.hdf5'.format(config.model_save_path, param_str),
             monitor='reg_loss',
             mode='min',
             save_best_only=True,

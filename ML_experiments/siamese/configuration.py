@@ -22,17 +22,17 @@ def str2bool(v):
 
 # Database and feature extraction parameters
 data_arg = parser.add_argument_group('Dataset')
-data_arg.add_argument('--audio_path_trn_per', type=str, default='../../../data/feat/train', help="audio directory path for train")
-data_arg.add_argument('--audio_path_test_per', type=str, default='../../../data/feat/test', help="audio directory path for test")
-data_arg.add_argument('--audio_path_ref', type=str, default='../../../data/feat/ref', help="audio directory path for references")
-data_arg.add_argument('--model_save_path', type=str, default='../../results/Siamese/models', help="audio directory path for test")
-data_arg.add_argument('--log_save_path', type=str, default='../../results/Siamese/logs', help="audio directory path for test")
+data_arg.add_argument('--audio_path_trn_per', type=str, default='../../../data/feat/rhythm/train', help="audio directory path for train")
+data_arg.add_argument('--audio_path_test_per', type=str, default='../../../data/feat/rhythm/test', help="audio directory path for test")
+data_arg.add_argument('--audio_path_ref', type=str, default='../../../data/feat/rhythm/ref', help="audio directory path for references")
+data_arg.add_argument('--model_save_path', type=str, default='../../../data/output/models', help="audio directory path for test")
+data_arg.add_argument('--log_save_path', type=str, default='../../../data/output/logs', help="audio directory path for test")
 data_arg.add_argument('--w_size', type=float, default=0.025, help="window length (in sec)")
 data_arg.add_argument('--s_size', type=float, default=0.025, help="skip size (in sec)")
 data_arg.add_argument('--max_frm', type=int, default=320, help="number of frames after padding (num_frame * skip_size = max duration (in sec))")
 data_arg.add_argument('--num_frm_split', type=int, default=320, help="the number of frames in each chunk in a split")
 data_arg.add_argument('--num_feat', type=int, default=20, help="dimension of the features")
-data_arg.add_argument('--file_ext', type=str, default='_onset_CNN1D+LSTM.npy', help="extension for spectrogram file")
+data_arg.add_argument('--file_ext', type=str, default='_onset_base.npy', help="extension for spectrogram file")
 data_arg.add_argument('--lab_ext', type=str, default='none', help="extension for onset labels")
 
 # Model parameters
