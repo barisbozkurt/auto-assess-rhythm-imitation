@@ -4,7 +4,7 @@
 This repository contains code for automatic assessment for rhythmic pattern imitations. Data used in the machine experiments is available here: [**MAST Rhythm Data Set**](https://zenodo.org/record/2620357#.Y1aVhHVBwW0) with annotations available in [the version 1.1 of the data set](https://zenodo.org/record/7243752#.Y1aWCnVBwW0). Please refer to the paper below for a detailed description of the tools, experiments and experiment results.
 
 ```latex
-@article{GuzelEtAl2022,
+@article{GuzelEtAl2023,
   title={Automatic Assessment of Student Rhythmic Pattern Imitation Performances},
   author={Köktürk-Güzel, Başak Esin and Büyük, Osman and Bozkurt, Baris and Baysal, Ozan},
   journal={Digital Signal Processing},
