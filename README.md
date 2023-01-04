@@ -8,10 +8,10 @@ This repository contains code for automatic assessment for rhythmic pattern imit
   title={Automatic Assessment of Student Rhythmic Pattern Imitation Performances},
   author={Köktürk-Güzel, Başak Esin and Büyük, Osman and Bozkurt, Baris and Baysal, Ozan},
   journal={Digital Signal Processing},
-  volume={Under review},
+  volume={133},
   number={},
   pages={},
-  year={},
+  year={2023},
   publisher={Elsevier}
 }
 ```
