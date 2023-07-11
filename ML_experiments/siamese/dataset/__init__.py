@@ -70,7 +70,7 @@ class Dataset:
 
     def index_set(self, audio_path):
         audio_files = []
-        print('Indexing dataset')
+        print('Indexing dataset ss')
 
         for root, folders, files in os.walk(audio_path):
             if len(files) == 0:
