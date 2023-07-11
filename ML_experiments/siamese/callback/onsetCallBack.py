@@ -4,17 +4,15 @@ from sklearn.metrics import mean_absolute_error,precision_score, recall_score, f
 from utils import compute_metrics
 import os
 
-from configuration import get_config
-config = get_config()
 
 class Onset_Callback(Callback):
-    def __init__(self, dataset):
+    def __init__(self, dataset, out_folder):
         super(Onset_Callback, self).__init__()
         self.dataset = dataset
+        self.out_folder = out_folder
 
     def on_epoch_end(self, epoch, logs=None):
         logs = logs or {}
-
 
         preds, labels, preds_path = self.task_evaluation()
 
@@ -38,7 +36,7 @@ class Onset_Callback(Callback):
                 onset_test_labels.append(labels[count])
 
             if epoch % 50 == 0 and epoch > 0:
-                _,_,file_path = path.split(':')
+                _, _, file_path = path.split(':')
                 out_path = file_path.replace('_spec.npy', '_cnn1D_onset_epoch{}.txt'.format(epoch))
                 np.savetxt(out_path, preds[count].astype(float), fmt='%.1f')
 
@@ -46,7 +44,7 @@ class Onset_Callback(Callback):
 
         print('Epoch {}'.format(str(epoch)))
 
-        metric_base_ref,metric_mod_ref = compute_metrics(np.array(onset_ref_preds),np.array(onset_ref_labels))
+        metric_base_ref, metric_mod_ref = compute_metrics(np.array(onset_ref_preds), np.array(onset_ref_labels))
         print('Ref (metrics base): recall {}, precision {}, F1 {}'.format(str(metric_base_ref[0]),
                                                                                       str(metric_base_ref[1]),
                                                                                       str(metric_base_ref[2])))
@@ -56,31 +54,31 @@ class Onset_Callback(Callback):
                                                                                                  str(metric_mod_ref[2]),
                                                                                                  str(metric_mod_ref[3])))
 
-        metric_base_train,metric_mod_train = compute_metrics(np.array(onset_train_preds),np.array(onset_train_labels))
-        print('Trn (metrics base): recall {}, precision {}, F1 {}'.format(str(metric_base_train[0]),
+        metric_base_train, metric_mod_train = compute_metrics(np.array(onset_train_preds),np.array(onset_train_labels))
+        print('Train (metrics base): recall {}, precision {}, F1 {}'.format(str(metric_base_train[0]),
                                                                           str(metric_base_train[1]),
                                                                           str(metric_base_train[2])))
 
-        print('Trn (metrics mod): recall {}, precision {}, F1 {}, accuracy {}'.format(str(metric_mod_train[0]),
-                                                                                             str(metric_mod_train[1]),
-                                                                                             str(metric_mod_train[2]),
-                                                                                             str(metric_mod_train[3])))
+        print('Train (metrics mod): recall {}, precision {}, F1 {}, accuracy {}'.format(str(metric_mod_train[0]),
+                                                                                      str(metric_mod_train[1]),
+                                                                                      str(metric_mod_train[2]),
+                                                                                      str(metric_mod_train[3])))
 
-        metric_base_test,metric_mod_test = compute_metrics(np.array(onset_test_preds),np.array(onset_test_labels))
-        print('Trn (metrics base): recall {}, precision {}, F1 {}'.format(str(metric_base_test[0]),
+        metric_base_test, metric_mod_test = compute_metrics(np.array(onset_test_preds),np.array(onset_test_labels))
+        print('Test (metrics base): recall {}, precision {}, F1 {}'.format(str(metric_base_test[0]),
                                                                           str(metric_base_test[1]),
                                                                           str(metric_base_test[2])))
 
         print('Test (metrics mod): recall {}, precision {}, F1 {}, accuracy {}'.format(str(metric_mod_test[0]),
-                                                                                             str(metric_mod_test[1]),
-                                                                                             str(metric_mod_test[2]),
-                                                                                             str(metric_mod_test[3])))
+                                                                                       str(metric_mod_test[1]),
+                                                                                       str(metric_mod_test[2]),
+                                                                                       str(metric_mod_test[3])))
 
         if epoch % 50 == 0 and epoch > 0:
-            fOut = open('{}/onset_preds_epoch-{}.txt'.format(config.model_save_path, epoch), 'w')
-            fOut.writelines('Epoch {}: recall {}, precision {}, F1 score {}, sample accuracy {}'.format(
-                str(epoch),str(metric_mod_test[0]), str(metric_mod_test[1]), str(metric_mod_test[2]), str(metric_mod_test[3])))
-            self.model.save('{}/onset_model_epoch-{}.hdf5'.format(config.model_save_path,epoch))
+            f_out = open('{}/onset_preds_epoch-{}.txt'.format(self.out_folder, epoch), 'w')
+            f_out.writelines('Epoch {}: recall {}, precision {}, F1 score {}, sample accuracy {}'.format(
+                str(epoch), str(metric_mod_test[0]), str(metric_mod_test[1]), str(metric_mod_test[2]), str(metric_mod_test[3])))
+            self.model.save('{}/onset_model_epoch-{}.hdf5'.format(self.out_folder,epoch))
 
             print('Model is saved')
 

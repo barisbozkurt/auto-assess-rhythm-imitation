@@ -4,8 +4,8 @@ import random
 from dataset import Dataset
 
 class Dataset_Siamese(Dataset):
-    def __init__(self, audio_path_per, audio_path_ref, model_name):
-        super().__init__(audio_path_per,audio_path_ref,model_name)
+    def __init__(self, audio_path_per, audio_path_ref, config):
+        super().__init__(audio_path_per, audio_path_ref, config, audio_path_test=None)
 
     def get_pairs(self):
         """Generates a list of 2-tuples containing pairs of dataset IDs belonging to the same speaker."""
@@ -57,7 +57,10 @@ class Dataset_Siamese(Dataset):
         """Generates a list of 2-tuples containing pairs of dataset IDs belonging to the same speaker."""
         num_melody = int(num_pairs / 1) # I will choose this much melody for every batch
         df_per = self.df[self.df['type'] == 'per']
-        melodies = random.sample(list(set(df_per['melodyname'].values)), num_melody)
+        try:
+            melodies = random.sample(list(set(df_per['melodyname'].values)), num_melody)
+        except:
+            aa = 9
 
         pairs = pd.DataFrame()
         labels = []
@@ -66,7 +69,6 @@ class Dataset_Siamese(Dataset):
             m_grd = c_grd % 4 + 1
             sample_ref = self.df[
                 (self.df['melodyname'] == melody) & (self.df['type'] == 'ref')].sample(1)
-
 
             if self.df[
                 (self.df['melodyname'] == melody) & (self.df['type'] == 'per') & (self.df['grade'] == m_grd)].shape[0] != 0:
@@ -131,17 +133,17 @@ class Dataset_Siamese(Dataset):
         in1 = [self[i] for i in list(zip(*pairs))[0]]
         in2 = [self[i] for i in list(zip(*pairs))[1]]
 
-        input_1,input_1_label = np.stack(list(zip(*in1))[0]), np.stack(list(zip(*in1))[1])
-        input_2,input_2_label = np.stack(list(zip(*in2))[0]), np.stack(list(zip(*in2))[1])
+        input_1, input_1_label = np.stack(list(zip(*in1))[0]), np.stack(list(zip(*in1))[1])
+        input_2, input_2_label = np.stack(list(zip(*in2))[0]), np.stack(list(zip(*in2))[1])
 
         if self.model_name == 'CNN2D':
-            input_1,input_2 = input_1[:,:,:,np.newaxis],input_2[:, :, :, np.newaxis]
+            input_1, input_2 = input_1[:, :, :, np.newaxis],input_2[:, :, :, np.newaxis]
 
         return [input_1, input_2], [input_1_label, input_2_label]
 
-    def yield_batches(self, batchsize = None, model_name = None):
+    def yield_batches(self, batchsize=None):
         """Convenience function to yield verification batches forever."""
-        if batchsize == None:
+        if batchsize is None:
             ([input_1, input_2], [input_1_label, input_2_label]) = self.build_verification_trials()
             yield ([input_1, input_2], [input_1_label, input_2_label])
         else:

@@ -25,8 +25,8 @@ param_str = 'onset'
 ###################
 # Create datasets #
 ###################
-train = Dataset_Onset(config.audio_path_trn_per, config.audio_path_ref, config.model_name)
-valid = Dataset_Onset(config.audio_path_trn_per, config.audio_path_ref, config.model_name, config.audio_path_test_per)
+train = Dataset_Onset(config=config)
+valid = Dataset_Onset(config=config, is_test=True, audio_path_test=config.audio_path_test_per)
 
 if config.model_name == 'LSTM_seq2seq':
     input_shape = [config.max_frm, config.num_feat]  # (batch_size, timespan, input_dim)

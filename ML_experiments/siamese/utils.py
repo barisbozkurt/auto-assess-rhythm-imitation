@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import librosa.display
 from sklearn.metrics import mean_absolute_error,precision_score, recall_score, f1_score, confusion_matrix
 
+num_max_f0 = 872
 num_max_frm = 320
 num_max_onsets = 20
 num_max_onsets_simple = 50
@@ -265,6 +266,9 @@ def get_num_max_onset_simple():
 
 def get_num_max_onset():
     return num_max_onsets
+
+def get_num_max_f0():
+    return num_max_f0
 
 def get_num_max_frm():
     return num_max_frm
