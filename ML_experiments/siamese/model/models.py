@@ -5,8 +5,8 @@ import tensorflow.keras.backend as K
 import sys
 
 class Siamese():
-    def __init__(self,  encoder, input_shape=None, distance_metric='regression'):
-        assert distance_metric in ('regression', 'uniform_euclidean', 'weighted_euclidean',
+    def __init__(self,  encoder, input_shape=None, distance_metric='reg_dist'):
+        assert distance_metric in ('reg_diff', 'reg_concat', 'uniform_euclidean', 'weighted_euclidean',
                                    'uniform_l1', 'weighted_l1',
                                    'dot_product', 'cosine_distance', 'concat')
 
@@ -23,11 +23,14 @@ class Siamese():
         encoded_1 = self.encoder(input_1)
         encoded_2 = self.encoder(input_2)
 
-        if self.distance_metric == 'regression':
+        if self.distance_metric == 'reg_diff':
             embedded_distance = layers.Subtract(name='subtract_embeddings')([encoded_1, encoded_2])
             embedded_distance = layers.Lambda(lambda x: K.square(x))(embedded_distance)
-            #embedded_concat = layers.Concatenate(name='concat_embeddings')([embedded_distance, encoded_1, encoded_2])
             output = layers.Dense(8, activation='relu')(embedded_distance)
+            output = layers.Dense(1, activation='relu')(output)
+        elif self.distance_metric == 'reg_concat':
+            concat_embedding = layers.Concatenate(name='concat_embeddings')([encoded_1, encoded_2])
+            output = layers.Dense(8, activation='relu')(concat_embedding)
             output = layers.Dense(1, activation='relu')(output)
         elif self.distance_metric == 'weighted_l1':
             # This is the distance metric used in the original one-shot paper
@@ -62,8 +65,8 @@ class Siamese():
 
 
 class Models():
-    def __init__(self, model_name = 'CNN2D', embedding_dimension = 24, filters = 12, units = 24, input_shape=None, dropout = 0.05):
-        assert model_name in ('LSTM', 'CNN1D', 'CNN1D_RNN', 'CNN1D_RNN_pretrained','CNN2D', 'FF', 'LSTM_seq2seq', 'CNN1D_RNN_seq2seq', 'CNN2D_RNN_seq2seq')
+    def __init__(self, model_name='CNN2D', embedding_dimension=24, filters=12, units=24, input_shape=None, dropout=0.05):
+        assert model_name in ('LSTM', 'CNN1D', 'CNN1D_RNN', 'CNN2D_RNN', 'CNN1D_RNN_pretrained','CNN2D', 'FF', 'LSTM_seq2seq', 'CNN1D_RNN_seq2seq', 'CNN2D_RNN_seq2seq')
 
         self.model_name = model_name
         self.embedding_dimension = embedding_dimension
@@ -78,12 +81,14 @@ class Models():
             self.encoder = self.get_CNN1D_encoder()
         if model_name == 'CNN1D_RNN':
             self.encoder = self.get_CNN1D_RNN_encoder()
+        if model_name == 'CNN2D_RNN':
+            self.encoder = self.get_CNN2D_RNN_encoder()
         if model_name == 'CNN1D_RNN_pretrained':
             self.encoder = self.get_CNN1D_RNN_pretrained_encoder()
         if model_name == 'CNN2D':
             self.encoder = self.get_CNN2D_encoder()
         if model_name == 'FF':
-            self.encoder = self.get_FF_encoder()
+            self.encoder = self.get_melody_FF_encoder()
         if model_name == 'LSTM_seq2seq':
             self.encoder = self.get_LSTM_seq2seq()
         if model_name == 'CNN1D_RNN_seq2seq':
@@ -116,23 +121,36 @@ class Models():
 
         # Initial conv
         if self.input_shape is None:
-            encoder.add(layers.Conv1D(filters=self.filters, kernel_size=9, padding='same', activation='relu'))
+            encoder.add(layers.Conv1D(filters=self.filters, kernel_size=7, padding='same', activation='relu'))
         else:
-            encoder.add(layers.Conv1D(filters=self.filters, kernel_size=9, padding='same', activation='relu',
+            encoder.add(layers.Conv1D(filters=self.filters, kernel_size=7, padding='same', activation='relu',
                                       input_shape=self.input_shape))
         encoder.add(layers.BatchNormalization())
 
         # Further convs
-        encoder.add(layers.Conv1D(filters=self.filters * 2, kernel_size=7, padding='same', activation='relu'))
+        encoder.add(layers.Conv1D(filters=self.filters * 2, kernel_size=5, padding='same', activation='relu'))
         encoder.add(layers.BatchNormalization())
 
         encoder.add(
-            layers.LSTM(units=self.units, return_sequences=True, activation='relu'))
+            layers.LSTM(units=self.units, return_sequences=False, activation='relu'))
 
-        encoder.add(layers.TimeDistributed(layers.Dense(1, activation='relu')))
-        encoder.add(layers.Flatten())
-        encoder.add(layers.Dense(self.units, activation='relu'))
-        #encoder.add(layers.Dense(self.units * 2, activation='relu'))
+        #encoder.add(layers.TimeDistributed(layers.Dense(1, activation='relu')))
+        #encoder.add(layers.Flatten())
+        encoder.add(layers.Dense(self.embedding_dimension, activation='relu'))
+
+        return encoder
+
+    def get_melody_FF_encoder(self):
+        encoder = Sequential()
+        if self.input_shape is None:
+            # In this case we are using the encoder as part of a siamese network and the input shape will be determined
+            # automatically based on the input shape of the siamese network
+            encoder.add(layers.Dense(self.units, activation='relu'))
+        else:
+            # In this case we are using the encoder to build a classifier network and the input shape must be defined
+            encoder.add(layers.Dense(self.units, input_shape=self.input_shape, activation='relu'))
+
+        encoder.add(layers.Dense(self.units/2, activation='relu'))
         encoder.add(layers.Dense(self.embedding_dimension, activation='relu'))
 
         return encoder
@@ -180,11 +198,8 @@ class Models():
         encoder = Sequential()
         # Initial conv
         if self.input_shape is None:
-            # In this case we are using the encoder as part of a siamese network and the input shape will be determined
-            # automatically based on the input shape of the siamese network
             encoder.add(layers.Conv2D(filters=self.filters, kernel_size=5, padding='same', activation='relu'))
         else:
-            # In this case we are using the encoder to build a classifier network and the input shape must be defined
             encoder.add(layers.Conv2D(filters=self.filters, kernel_size=5, padding='same', activation='relu',
                                       input_shape=self.input_shape))
         encoder.add(layers.BatchNormalization())
@@ -199,7 +214,6 @@ class Models():
             layers.TimeDistributed(layers.Dense(1, activation='sigmoid')))
 
         return encoder
-
 
     def get_LSTM_seq2seq(self):
         encoder = Sequential()
@@ -229,7 +243,7 @@ class Models():
             # In this case we are using the encoder as part of a siamese network and the input shape will be determined
             # automatically based on the input shape of the siamese network
             encoder.add(
-                layers.LSTM(units=self.units, dropout=self.dropout, return_sequences=True, activation='relu',  ))
+                layers.LSTM(units=self.units, dropout=self.dropout, return_sequences=True, activation='relu'))
         else:
             # In this case we are using the encoder to build a classifier network and the input shape must be defined
             encoder.add(
@@ -310,26 +324,27 @@ class Models():
 
     def get_CNN1D_encoder(self):
         encoder = Sequential()
+        kernel_size = 5
 
         # Initial conv
         if self.input_shape is None:
             # In this case we are using the encoder as part of a siamese network and the input shape will be determined
             # automatically based on the input shape of the siamese network
-            encoder.add(layers.Conv1D(filters=self.filters, kernel_size=19, padding='same', activation='relu'))
+            encoder.add(layers.Conv1D(filters=self.filters, kernel_size=kernel_size, padding='same', activation='relu'))
         else:
             # In this case we are using the encoder to build a classifier network and the input shape must be defined
-            encoder.add(layers.Conv1D(filters=self.filters, kernel_size=19, padding='same', activation='relu', input_shape=self.input_shape))
+            encoder.add(layers.Conv1D(filters=self.filters, kernel_size=kernel_size, padding='same', activation='relu', input_shape=self.input_shape))
         encoder.add(layers.BatchNormalization())
         encoder.add(layers.SpatialDropout1D(self.dropout))
         encoder.add(layers.MaxPool1D(4, 4))
 
         # Further convs
-        encoder.add(layers.Conv1D(filters=self.filters*2, kernel_size=15, padding='same', activation='relu'))
+        encoder.add(layers.Conv1D(filters=self.filters*2, kernel_size=kernel_size-2, padding='same', activation='relu'))
         encoder.add(layers.BatchNormalization())
         encoder.add(layers.SpatialDropout1D(self.dropout))
         encoder.add(layers.MaxPool1D())
 
-        encoder.add(layers.Conv1D(filters=self.filters*2, kernel_size=13, padding='same', activation='relu'))
+        encoder.add(layers.Conv1D(filters=self.filters*2, kernel_size=kernel_size-2, padding='same', activation='relu'))
         encoder.add(layers.BatchNormalization())
         encoder.add(layers.SpatialDropout1D(self.dropout))
         encoder.add(layers.MaxPool1D())
